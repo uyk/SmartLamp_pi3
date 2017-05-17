@@ -1,0 +1,24 @@
+{
+  "name": "smartlmap_pi3",
+  "version": "1.0.0",
+  "description": "Smart lamp project using raspberry pi 3",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/uyk/SmartLamp_pi3.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/uyk/SmartLamp_pi3/issues"
+  },
+  "homepage": "https://github.com/uyk/SmartLamp_pi3#readme",
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "express": "^4.15.3",
+    "request": "^2.81.0"
+  }
+}
