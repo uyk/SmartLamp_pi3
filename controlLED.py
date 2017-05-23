@@ -3,8 +3,8 @@
 #
 # Direct port of the Arduino NeoPixel library strandtest example.  Showcases
 # various animations on a strip of NeoPixels.
+import sys
 import time
-import sys,json
 
 from neopixel import *
 
@@ -19,7 +19,7 @@ LED_INVERT     = False   # True to invert the signal (when using NPN transistor 
 
 
 # Define functions which animate LEDs in various ways.
-def colorWipe(strip, color, wait_ms=50):
+def colorWipe(strip, color, wait_ms=20):
 	"""Wipe color across display a pixel at a time."""
 	for i in range(strip.numPixels()):
 		strip.setPixelColor(i, color)
@@ -33,7 +33,7 @@ def theaterChase(strip, color, wait_ms=50, iterations=10):
 			for i in range(0, strip.numPixels(), 3):
 				strip.setPixelColor(i+q, color)
 			strip.show()
-			time.sleep(wait_ms/1000.0)
+			time.sleep(wait_ms/800.0)
 			for i in range(0, strip.numPixels(), 3):
 				strip.setPixelColor(i+q, 0)
 
@@ -56,7 +56,7 @@ def rainbow(strip, wait_ms=20, iterations=1):
 		strip.show()
 		time.sleep(wait_ms/1000.0)
 
-def rainbowCycle(strip, wait_ms=20, iterations=1):
+def rainbowCycle(strip, wait_ms=20, iterations=5):
 	"""Draw rainbow that uniformly distributes itself across all pixels."""
 	for j in range(256*iterations):
 		for i in range(strip.numPixels()):
@@ -71,22 +71,24 @@ def theaterChaseRainbow(strip, wait_ms=50):
 			for i in range(0, strip.numPixels(), 3):
 				strip.setPixelColor(i+q, wheel((i+j) % 255))
 			strip.show()
-			time.sleep(wait_ms/1000.0)
+			time.sleep(wait_ms/500.0)
 			for i in range(0, strip.numPixels(), 3):
 				strip.setPixelColor(i+q, 0)
 
 
 # Main program logic follows:
 if __name__ == '__main__':
+	color = sys.argv[1]
+	color = color.split(',')
+
 	# Create NeoPixel object with appropriate configuration.
 	strip = Adafruit_NeoPixel(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS)
 	# Intialize the library (must be called once before other functions).
 	strip.begin()
-
 	print ('Press Ctrl-C to quit.')
-	while True:
-		rainbowCycle(strip)
-		lines = sys.stdin.readlines()
-		lines = json.loads(lines[0])
-		print lines
-
+	
+	print color
+	for i in range(4):
+		# Theater chase animations.
+		theaterChase(strip, Color(int(color[4]), int(color[3]), int(color[5]))) 
+	colorWipe(strip,Color(int(color[1]), int(color[0]), int(color[2])))

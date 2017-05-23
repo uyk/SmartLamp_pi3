@@ -18,7 +18,7 @@ LED_INVERT     = False   # True to invert the signal (when using NPN transistor 
 
 
 # Define functions which animate LEDs in various ways.
-def colorWipe(strip, color, wait_ms=50):
+def colorWipe(strip, color, wait_ms=20):
 	"""Wipe color across display a pixel at a time."""
 	for i in range(strip.numPixels()):
 		strip.setPixelColor(i, color)
@@ -55,7 +55,7 @@ def rainbow(strip, wait_ms=20, iterations=1):
 		strip.show()
 		time.sleep(wait_ms/1000.0)
 
-def rainbowCycle(strip, wait_ms=20, iterations=5):
+def rainbowCycle(strip, wait_ms=20, iterations=1):
 	"""Draw rainbow that uniformly distributes itself across all pixels."""
 	for j in range(256*iterations):
 		for i in range(strip.numPixels()):
@@ -83,6 +83,7 @@ if __name__ == '__main__':
 	strip.begin()
 
 	print ('Press Ctrl-C to quit.')
-	while True:
+	#while True:
 		# Rainbow animations.
-		rainbowCycle(strip)
+	rainbowCycle(strip)
+	colorWipe(strip, Color(200,200,200))

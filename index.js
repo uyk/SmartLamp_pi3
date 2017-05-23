@@ -14,8 +14,7 @@ var optionsSmartLamp = {
 };
 
 var optionsPython = {
-	mode: 'text',
-	pythonOptions: ['-u']
+	mode: 'text'
 };
 
 app.use(bodyParser.urlencoded( {extended : false } ));
@@ -27,10 +26,10 @@ app.get('/', function(req,res) {
 
 app.listen(port,function() {
 	console.log("create Server");
-
-	PythonShell.run('default.py',optionsPython,function(err, results) {
+	PythonShell.run('default.py', optionsPython, function(err, results) {
 		if(err) throw err;
 		console.log("results: %j", results);
+		console.log('finished');
 	});
 	//1초마다 smartLamp 함수 호출
 	setInterval(smartLamp,1000);
@@ -44,9 +43,11 @@ function smartLamp() {
 		}
 		else {
 			console.log(body);
-			PythonShell.run("facebook.py", optionsPython, function(err, results) {
+			optionsPython.args = body;
+			PythonShell.run('controlLED.py', optionsPython, function(err, results) {
 				if(err) throw err;
-				console.log("results");
+				console.log('results:%j',results);
+				console.log('finished');
 			});
 		}
 	});
